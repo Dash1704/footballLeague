@@ -12,10 +12,14 @@ const app = express();
 
 // middleware
 app.use(morgan('dev'));
-app.use(cors({ origin: true, credentials: true}));
+//app.use(cors({ origin: true, credentials: true}));
 
 // routes
 
 
 
 //port
+const port = process.env.PORT || 8080;
+
+//listener
+const server = app.listen(port, () => console.log(`server is running on port ${port}`))
