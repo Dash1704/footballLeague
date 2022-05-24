@@ -1,8 +1,10 @@
 const asyncHandler = require('express-async-handler')
+const Test = require('../models/test')
 
 
 const getTest = asyncHandler(async (req, res) => {
-  res.status(200).json({message: 'Get Test'})
+  const test = await Test.find()
+  res.status(200).json(test)
 })
 
 const setTest = asyncHandler(async (req, res) => {
@@ -10,7 +12,11 @@ const setTest = asyncHandler(async (req, res) => {
     res.status(400)
     throw new Error('Please add a text field')
   }
-  res.status(200).json({message: 'Create Test'})
+
+  const test = await Test.create({
+    text: req.body.text
+  })
+  res.status(200).json(test)
 })
 
 const updateTest = asyncHandler(async (req, res) => {

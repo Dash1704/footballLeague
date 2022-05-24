@@ -15,8 +15,8 @@ mongoose.connect(process.env.MONGO_URI, {
   useNewUrlParser: true,
   useUnifiedTopology: true, 
 })
-.then(() => console.log('DB CONNECTED'))
-.catch(err => console.log('DB CONNECTION ERROR', err));
+.then(() => console.log('MongoDB CONNECTED'))
+.catch(err => console.log('MongoDB CONNECTION ERROR', err));
 
 //models
 //require('./models/test')

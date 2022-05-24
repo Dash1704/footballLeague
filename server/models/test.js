@@ -1,11 +1,14 @@
-// const mongoose = require('mongoose');
+const mongoose = require('mongoose');
 
-// const testSchema = new mongoose.Schema({
-//   team:{
-//     type:String,
-//     required:true
-//   },
+const testSchema = mongoose.Schema({
+     text:{
+       type: String,
+       required: true
+     },
 
-// })
+}, 
+{
+  timestamps: true,
+})
 
-// mongoose.model("Test", testSchema)
+module.exports = mongoose.model('Test', testSchema)
