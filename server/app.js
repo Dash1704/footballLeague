@@ -1,7 +1,7 @@
 // import modules
 const express = require('express');
 const mongoose = require('mongoose');
-const morgan = require('morgan');
+//const morgan = require('morgan');
 require('dotenv').config();
 
 // app
@@ -22,7 +22,9 @@ mongoose.connect(process.env.MONGO_URI, {
 
 
 // middleware
-app.use(morgan('dev'));
+app.use(express.json())
+app.use(express.urlencoded({ extended: false}))
+//app.use(morgan('dev'));
 //app.use(cors({ origin: true, credentials: true}));
 
 // routes
