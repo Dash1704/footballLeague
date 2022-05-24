@@ -2,12 +2,13 @@
 const express = require('express');
 const mongoose = require('mongoose');
 //const morgan = require('morgan');
-require('dotenv').config();
+const dotenv = require('dotenv').config();
+const { errorHandler } = require('./middlewares/errorMiddleware')
 
 // app
 const app = express();
 
-app.use('/test', require('./routes/test'))
+
 
 //db
 mongoose.connect(process.env.MONGO_URI, {
@@ -23,13 +24,13 @@ mongoose.connect(process.env.MONGO_URI, {
 
 // middleware
 app.use(express.json())
-app.use(express.urlencoded({ extended: false}))
+app.use(express.urlencoded({ extended: false }))
+app.use(errorHandler)
 //app.use(morgan('dev'));
 //app.use(cors({ origin: true, credentials: true}));
 
 // routes
-const testRoutes = require('./routes/test');
-app.use("/", testRoutes)
+app.use('/test', require('./routes/test'))
 
 //port
 const port = process.env.PORT || 8080;
