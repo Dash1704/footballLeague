@@ -1,23 +1,49 @@
 const asyncHandler = require('express-async-handler')
+const League = require('../models/leagues')
+const test = require('../models/test')
 
+//GET
 const getLeagues = asyncHandler(async (req, res) => {
-  res.status(200).json({ message: 'Get the leagues'})
+  const leagues = await League.find()
+  res.status(200).json(leagues)
 })
 
+//POST
 const postLeagues = asyncHandler(async (req, res) => {
-  if(!req.body.text){
+  if(!req.body.name){
     res.status(400)
-    throw new Error('Please add a text field')
+    throw new Error('Please add a name field')
   }
-  res.status(200).json({ message: 'Post a new league'})
+
+  const leagues = await League.create({
+    name: req.body.name
+  })
+  res.status(200).json(leagues)
 })
 
+//UPDATE
 const updateLeagues = asyncHandler(async (req, res) => {
-  res.status(200).json({ message: `Update league ${req.params.id}`})
+  const leagues = await League.findById(req.params.id)
+
+  if(!leagues){
+    res.status(400)
+    throw new Error("League not found")
+  }
+  const updatedLeague = await League.findByIdAndUpdate(req.params.id, req.body,
+    {new: true,})
+  res.status(200).json(updatedLeague)
 })
 
+//DELETE
 const deleteLeagues = asyncHandler(async (req, res) => {
-  res.status(200).json({ message: `Delete league ${req.params.id}`})
+  const leagues = await League.findById(req.params.id)
+  if(!leagues){
+    res.status(400)
+    throw new Error("League not found")
+  }
+
+  await leagues.remove()
+  res.status(200).json({ id: req.params.id})
 })
 
 module.exports = {

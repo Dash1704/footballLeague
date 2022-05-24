@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 const leagueSchema = mongoose.Schema({
-  league: {
+  name: {
     type: String,
     required: true
   }
