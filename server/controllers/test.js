@@ -19,12 +19,31 @@ const setTest = asyncHandler(async (req, res) => {
   res.status(200).json(test)
 })
 
+
 const updateTest = asyncHandler(async (req, res) => {
-  res.status(200).json({message: `Update Test ${req.params.id}`})
+  const test = await Test.findById(req.params.id)
+
+   if(!test){
+     res.status(400)
+     throw new Error("Test not found")
+   }
+
+   const updatedTest = await Test.findByIdAndUpdate(req.params.id, req.body, 
+    {new: true,})
+  res.status(200).json(updatedTest)
 })
 
 const deleteTest = asyncHandler(async (req, res) => {
-  res.status(200).json({message: `Delete Test ${req.params.id}`})
+
+  const test = await Test.findById(req.params.id)
+  
+  if(!test){
+    res.status(400)
+    throw new Error("Test not found")
+  }
+
+  await test.remove()
+  res.status(200).json({ id: req.params.id })
 })
 
 
