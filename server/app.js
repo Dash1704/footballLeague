@@ -31,6 +31,7 @@ app.use(errorHandler)
 
 // routes
 app.use('/test', require('./routes/test'))
+app.use('/leagues', require('./routes/leagues'))
 
 //port
 const port = process.env.PORT || 8080;
