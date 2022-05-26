@@ -10,30 +10,31 @@ app.use(cors());
 app.use(express.json());
 
 //Routes
+app.use('/leagues', require('./routes/leagues'))
 
 //Create a league
-app.post("/leagues", async(req, res) => {
-  try {
-    const { description } = req.body;
-    const newLeague = await pool.query("INSERT INTO leagues (description) VALUES($1) RETURNING *", 
-      [description]
-    );
-    res.json(newLeague.rows[0])
+// app.post("/leagues", async(req, res) => {
+//   try {
+//     const { name } = req.body;
+//     const newLeague = await pool.query("INSERT INTO leagues (name) VALUES($1) RETURNING *", 
+//       [name]
+//     );
+//     res.json(newLeague.rows[0])
 
-  } catch (err) {
-    console.log(err.message)
-  }
-})
+//   } catch (err) {
+//     console.log(err.message)
+//   }
+// })
 
 //get a league
-app.get("/leagues", async(req, res) => {
-  try {
-    const allLeagues = await pool.query("SELECT * FROM leagues")
-    res.json(allLeagues.rows)
-  } catch (err) {
-    console.error(err.message)
-  }
-})
+// app.get("/leagues", async(req, res) => {
+//   try {
+//     const allLeagues = await pool.query("SELECT * FROM leagues")
+//     res.json(allLeagues.rows)
+//   } catch (err) {
+//     console.error(err.message)
+//   }
+// })
 
 app.get("/leagues/:id", async(req, res) => {
   try {
@@ -51,9 +52,9 @@ app.get("/leagues/:id", async(req, res) => {
 app.put("/leagues/:id", async(req, res) => {
   try {
     const { id } = req.params;
-    const { description } = req.body;
-    const updateLeague = await pool.query("UPDATE leagues SET description = $1 WHERE leagues_id = $2", 
-    [description, id]
+    const { name } = req.body;
+    const updateLeague = await pool.query("UPDATE leagues SET name = $1 WHERE leagues_id = $2", 
+    [name, id]
     );
     res.json("League was updated");
 
@@ -119,7 +120,7 @@ app.listen(5000, () => {
 
 // // routes
 // app.use('/test', require('./routes/test'))
-// app.use('/leagues', require('./routes/leagues'))
+
 
 // //port
 // const port = process.env.PORT || 8080;
