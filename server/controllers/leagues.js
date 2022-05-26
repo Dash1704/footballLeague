@@ -1,32 +1,26 @@
 const asyncHandler = require('express-async-handler')
-//const League = require('../models/leagues')
-//const test = require('../models/test')
 const pool = require("../db")
 
 //GET
-// const getLeagues = asyncHandler(async (req, res) => {
-//   const leagues = await League.find()
-//   res.status(200).json(leagues)
-// })
-
 const getLeagues = asyncHandler(async(req, res) => {
   const allLeagues = await pool.query("SELECT * FROM leagues")
   res.json(allLeagues.rows)
 })
 
+//GET BY ID
+const getLeaguesByID = asyncHandler(async(req, res) => {
+  try {
+    const { id } = req.params;
+    const league = await pool.query("SELECT * FROM leagues WHERE leagues_id = $1", 
+    [id]);
+    res.json(league.rows[0]);
+
+  } catch (err) {
+    console.error(err.message)
+  }
+})
+
 //POST
-// const postLeagues = asyncHandler(async (req, res) => {
-//   if(!req.body.name){
-//     res.status(400)
-//     throw new Error('Please add a name field')
-//   }
-
-//   const leagues = await League.create({
-//     name: req.body.name
-//   })
-//   res.status(200).json(leagues)
-// })
-
 const postLeagues = asyncHandler(async (req, res) => {
     if(!req.body.name){
     res.status(400)
@@ -40,32 +34,34 @@ res.json(newLeague.rows[0])
 })
 
 //UPDATE
-const updateLeagues = asyncHandler(async (req, res) => {
-  const leagues = await League.findById(req.params.id)
+const updateLeagues = asyncHandler(async(req, res) => {
+  try {
+    const { id } = req.params;
+    const { name } = req.body;
+    const updateLeague = await pool.query("UPDATE leagues SET name = $1 WHERE leagues_id = $2", 
+    [name, id]
+    );
+    res.json("League was updated");
 
-  if(!leagues){
-    res.status(400)
-    throw new Error("League not found")
+  } catch (err) {
+    console.error(err.message)
   }
-  const updatedLeague = await League.findByIdAndUpdate(req.params.id, req.body,
-    {new: true,})
-  res.status(200).json(updatedLeague)
 })
-
 //DELETE
-const deleteLeagues = asyncHandler(async (req, res) => {
-  const leagues = await League.findById(req.params.id)
-  if(!leagues){
-    res.status(400)
-    throw new Error("League not found")
+const deleteLeagues = asyncHandler(async(req, res) => {
+  try {
+    const { id } = req.params;
+    const deleteLeague = await pool.query("DELETE FROM leagues WHERE leagues_id = $1", 
+    [id]);
+    res.json("League was deleted")
+  } catch (err) {
+    console.error(err.message)
   }
-
-  await leagues.remove()
-  res.status(200).json({ id: req.params.id})
 })
 
 module.exports = {
   getLeagues,
+  getLeaguesByID,
   postLeagues,
   updateLeagues,
   deleteLeagues,
