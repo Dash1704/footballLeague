@@ -2,6 +2,18 @@ import React, {Fragment, useEffect, useState} from "react";
 
 const ListLeagues = () => {
   const [leagues, setLeagues] = useState([])
+
+  const deleteLeague = async (id) => {
+    try {
+      const binLeague = await fetch(`http://localhost:5000/leagues/${id}`, {
+        method: "DELETE"
+      })
+    setLeagues(leagues.filter(league => league.leagues_id !== id))
+    } catch (err) {
+      console.error(err.message)
+    }
+  }
+
   const getLeagues = async () => {
     try {
       const response = await fetch("http://localhost:5000/leagues") 
@@ -11,6 +23,7 @@ const ListLeagues = () => {
       console.error(err.message);
     }
   }
+
   useEffect(() => {
     getLeagues();
   }, []);
@@ -32,10 +45,12 @@ const ListLeagues = () => {
         <td>john@example.com</td>
         </tr>*/}
       {leagues.map(league => (
-        <tr>
+        <tr key={league.leagues_id}>
           <td>{league.name}</td>
           <td>Edit</td>
-          <td>Delete</td>
+          <td>
+            <button className="btn btn-danger" onClick={() => deleteLeague(league.leagues_id)}>Delete</button>
+          </td>
         </tr>
       ))}
     </tbody>
