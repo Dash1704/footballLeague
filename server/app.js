@@ -2,10 +2,37 @@
 const express = require('express');
 const app = express();
 const cors = require('cors');
+const pool = require("./db");
 
 //middleware
 app.use(cors());
 app.use(express.json());
+
+//Routes
+
+//Create a league
+app.post("/leagues", async(req, res) => {
+  try {
+    const { description } = req.body;
+    const newLeague = await pool.query("INSERT INTO leagues (description) VALUES($1) RETURNING *", 
+      [description]
+    );
+    res.json(newLeague.rows[0])
+
+  } catch (err) {
+    console.log(err.message)
+  }
+})
+
+//get a league
+app.get("/leagues", async(req, res) => {
+  try {
+    const allLeagues = await pool.query("SELECT * FROM leagues")
+    res.json(allLeagues.rows)
+  } catch (err) {
+    console.error(err.message)
+  }
+})
 
 //listener
 app.listen(5000, () => {
