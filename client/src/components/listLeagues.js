@@ -1,4 +1,5 @@
 import React, {Fragment, useEffect, useState} from "react";
+import EditLeague from "./editLeague";
 
 const ListLeagues = () => {
   const [leagues, setLeagues] = useState([])
@@ -39,15 +40,12 @@ const ListLeagues = () => {
       </tr>
     </thead>
     <tbody>
-       {/*<tr>
-        <td>John</td>
-        <td>Doe</td>
-        <td>john@example.com</td>
-        </tr>*/}
       {leagues.map(league => (
         <tr key={league.leagues_id}>
           <td>{league.name}</td>
-          <td>Edit</td>
+          <td>
+            <EditLeague/>
+            </td>
           <td>
             <button className="btn btn-danger" onClick={() => deleteLeague(league.leagues_id)}>Delete</button>
           </td>
