@@ -44,7 +44,7 @@ const ListLeagues = () => {
         <tr key={league.leagues_id}>
           <td>{league.name}</td>
           <td>
-            <EditLeague/>
+            <EditLeague league={league}/>
             </td>
           <td>
             <button className="btn btn-danger" onClick={() => deleteLeague(league.leagues_id)}>Delete</button>
