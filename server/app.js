@@ -3,6 +3,7 @@ const express = require('express');
 const app = express();
 const cors = require('cors');
 const pool = require("./db");
+const { json } = require('express');
 
 //middleware
 app.use(cors());
@@ -29,6 +30,45 @@ app.get("/leagues", async(req, res) => {
   try {
     const allLeagues = await pool.query("SELECT * FROM leagues")
     res.json(allLeagues.rows)
+  } catch (err) {
+    console.error(err.message)
+  }
+})
+
+app.get("/leagues/:id", async(req, res) => {
+  try {
+    const { id } = req.params;
+    const league = await pool.query("SELECT * FROM leagues WHERE leagues_id = $1", 
+    [id]);
+    res.json(league.rows[0]);
+
+  } catch (err) {
+    console.error(err.message)
+  }
+})
+
+//Update
+app.put("/leagues/:id", async(req, res) => {
+  try {
+    const { id } = req.params;
+    const { description } = req.body;
+    const updateLeague = await pool.query("UPDATE leagues SET description = $1 WHERE leagues_id = $2", 
+    [description, id]
+    );
+    res.json("League was updated");
+
+  } catch (err) {
+    console.error(err.message)
+  }
+})
+
+//Delete
+app.delete("/leagues/:id", async(req, res) => {
+  try {
+    const { id } = req.params;
+    const deleteLeague = await pool.query("DELETE FROM leagues WHERE leagues_id = $1", 
+    [id]);
+    res.json("League was deleted")
   } catch (err) {
     console.error(err.message)
   }
