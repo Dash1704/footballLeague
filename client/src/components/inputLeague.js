@@ -11,7 +11,7 @@ const InputLeague = () => {
         headers: {"Content-Type": "application/json"},
         body: JSON.stringify(body)
       })
-      console.log(response)
+      window.location = "/";
     } catch (err) {
       console.error(err.message)
     }
@@ -26,7 +26,7 @@ const InputLeague = () => {
         value={name}
         onChange={e => setName(e.target.value)}
         />
-      <button className="btn btn-success">Add</button>
+      <button className="btn btn-success">Add League</button>
     </form>
   </Fragment>
   )
