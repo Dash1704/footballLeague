@@ -15,9 +15,15 @@ npm install
 ```
 npm install
 ``` 
-6. Connect to a new MongoDB Atlas database.  Any MongoDB database would be suffice although MongoDB Atlas is recommended.
-   Please go to the MongoDB Atlas website and create an account for easy installation.  
-   Establish the connection in the 'App.js' file in the server directory.
+6. Connect to a new PostgreSQL database. 
+   In the server directory, in db.js, and change the user on line 4 to your local user
+   Create a new database by:
+   - Open a the server directory in a terminal
+   - Type ```psql``` in the terminal to open PostreSQL
+   - Copy line 1 in the database.sql and paste into the terminal
+   - Change into that database by typing ```\c football```
+   - Create the leagues table by copying lines 3-6 in database.sql and pasting in the terminal
+
 7. Navigate to the server directory and run:
 ```
 npm start
@@ -26,3 +32,6 @@ npm start
 ```
 npm start
 ``` 
+
+![Screen Shot 2022-05-31 at 18 04 40](https://user-images.githubusercontent.com/93666673/171232538-c5175d16-7f04-4e87-a667-a9eefb3f2fcf.png)
+
